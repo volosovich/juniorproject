@@ -17,8 +17,6 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.name
-        return self.description
-        return self.slug
 
 class Product(models.Model):
 
@@ -32,9 +30,3 @@ class Product(models.Model):
 
     def __unicode__(self):
         return self.name
-        return self.description
-        return self.slug
-        return self.price
-        return self.created_at
-        return self.modified_at
-
