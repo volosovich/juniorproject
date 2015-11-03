@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content_block %}
+{% for p in categories %}
+<h1>Name: {{p.name}}</h1>
+<h2>Description: {{p.description}}</h2>
+{% endfor %}
 {% endblock %}
