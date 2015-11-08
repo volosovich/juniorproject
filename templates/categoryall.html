@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content_block %}
-<h1>Induvidual Categories Page Template templates/category.html</h1>
-{% for p in categories %}
+{% for p in categoriesall %}
 <h1><a href="{{ p.slug }}">Name: {{p.name}}</a></h1>
 <h2>Description: {{p.description}}</h2>
-<h2>Description: {{p.price}}</h2>
 {% endfor %}
 {% endblock %}

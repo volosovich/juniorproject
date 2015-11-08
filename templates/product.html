@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content_block %}
-{% for p in products %}
-<h1>Name: {{p.name}}</h1>
-<h2>Description: {{p.description}}</h2>
-<h3>Price: {{p.price}}</h3>
-{% endfor %}
+<h1>Name: {{product.name}}</h1>
+<h2>Description: {{product.description}}</h2>
+<h3>Price: {{product.price}}</h3>
 {% endblock %}
