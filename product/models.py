@@ -24,8 +24,8 @@ class Product(models.Model):
     slug = models.SlugField()
     description = models.TextField()
     price = models.IntegerField()
-    created_at = models.DateField(auto_now_add = True) 
-    modified_at = models.DateField(auto_now = True)
+    created_at = models.DateTimeField(auto_now_add = True) 
+    modified_at = models.DateTimeField(auto_now = True)
     category_for_product = models.ForeignKey(Category)
 
     def __unicode__(self):

@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.views.generic import ListView, DetailView 
+from django.views.generic import ListView, DetailView, FormView 
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login
 from .models import Product, Category
-
+from datetime import datetime, timedelta
 
 
 #class TestPage(ListView):
@@ -28,6 +30,15 @@ class CategoryAllPage(ListView):
     context_object_name = 'categoriesall'
 
 
+class ProductPage24h(ListView):
+    model = Product
+    template_name = 'product24h.html'
+    context_object_name = 'products24h'
+
+    def get_queryset(self):
+        return Product.objects.filter(created_at__gte=datetime.now()-timedelta(days=1))
+
+
 class CategoryPage(ListView):
     model = Product
     template_name = 'category.html'
@@ -45,4 +56,24 @@ class CategoryPage(ListView):
 #    template_name = 'category.html'
 #    context_object_name = 'categories'
 
+# OK registration block. May the Force be with me
+
+class RegistrationForm(FormView):
+    form_class = UserCreationForm
+    success_url = '/products/login/'
+    template_name = 'register.html'
+
+    def form_valid(self, form):
+        form.save()
+        return super(RegistrationForm, self).form_valid(form)
+
+class LoginForm(FormView):
+    form_class = AuthenticationForm
+    template_name = 'login.html'
+    success_url = '/products/products24h/'
+    
+    def form_valid(self, form):
+        self.user = form.get_user()
+        login(self.request, self.user)
+        return super(LoginForm, self).form_valid(form)
 

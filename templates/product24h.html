@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content_block %}
+<h1>Induvidual Categories Page Template templates/product24h.html</h1>
+{% for p in products24h %}
+<h1><a href="{{ p.slug }}">Name: {{p.name}}</a></h1>
+<h2>Description: {{p.description}}</h2>
+<h2>Price: {{p.price}}</h2>
+<h2>Created: {{p.created_at}}</h2>
+<h2>Modified: {{p.modified_at}}</h2>
+{% endfor %}
+{% endblock %}

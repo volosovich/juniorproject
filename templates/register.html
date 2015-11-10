@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content_block %}
+<h1>Induvidual Categories Page Template templates/register.html</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Registration</button>
+    </form>
+{% endblock %}
