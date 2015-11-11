@@ -116,3 +116,5 @@ TEMPLATE_LOADERS = (
 #TEMPLATE_DIRS = (
 #    join(PROJECT_PATH, 'templates/'),
 #)
+LOGIN_URL = '/products/login/'
+LOGOUT_URL = '/product/logout/'

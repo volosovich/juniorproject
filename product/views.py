@@ -1,8 +1,11 @@
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.views.generic import ListView, DetailView, FormView 
+from django.views.generic import ListView, DetailView, FormView, View
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.http import HttpRequest, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import Product, Category
 from datetime import datetime, timedelta
 
@@ -35,6 +38,10 @@ class ProductPage24h(ListView):
     template_name = 'product24h.html'
     context_object_name = 'products24h'
 
+    @method_decorator(login_required())
+    def dispatch(self, request, *args, **kwargs):
+        return super(ProductPage24h, self).dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
         return Product.objects.filter(created_at__gte=datetime.now()-timedelta(days=1))
 
@@ -44,7 +51,6 @@ class CategoryPage(ListView):
     template_name = 'category.html'
 #    slug_field = 'category_for_product' 
     context_object_name = 'categories'
-#    queryset = Product.objects.filter(category_for_product__slug = 'macapple')
 
     def get_queryset(self):
         self.filter = get_object_or_404(Category, slug = self.args[0])
@@ -77,3 +83,7 @@ class LoginForm(FormView):
         login(self.request, self.user)
         return super(LoginForm, self).form_valid(form)
 
+class LogoutForm(View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect("/products")
