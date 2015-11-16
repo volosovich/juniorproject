@@ -1,5 +1,7 @@
 from django.test import TestCase, Client
 from product.views import CategoryAllPage 
+from django.contrib.auth.models import User
+
 
 class RegistrPageTest(TestCase):
 
@@ -32,19 +34,40 @@ class LoginPageTest(TestCase):
     def setUp(self):
         self.client = Client()
 
+
     def test_login_page_load(self):
         response = self.client.get('/products/login/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'templates/login.html')
 
-    def test_login_page_login(self):
-        response = self.client.post('/products/login/', {'username': 'testuser123456', 'password': 'testpass'})
+
+    def test_login_page_login_without_correct_nickname(self):
+        response = self.client.post('/products/login/', {'username': 'testuser1234567', 'password': 'testpass'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Please enter a correct username and password')
+
+    def test_login_page_login_without_correct_pass(self):
+        response = self.client.post('/products/login/', {'username': 'testuser123456', 'password': 'testpass1'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Please enter a correct username and password')
+
+
+#    def test_login_page_login(self):
+#        response = self.client.post('/products/login/', {'username': 'testuser123456', 'password': 'testpass'})
+#        self.assertEqual(response.status_code, 200)
+
+#    def test_Products24h_page_load_after_login(self):
+#        response = self.client.get('/products/products24h/')
+#        self.assertEqual(response.status_code, 302)
+
+    def test_login_page_login_and_load_products24h(self):
+        User.objects.create_user('testuser1234568', 'lennon@thebeatles.com', 'testpass') #Create user
+        answer = self.client.login(username='testuser1234568', password='testpass')      #Login, cookies and session is save. Next I'm cheking products24h page
+        response = self.client.get('/products/products24h/')
+        self.assertEqual(answer, True)
+        self.assertContains(response, 'templates/product24h.html')
         self.assertEqual(response.status_code, 200)
 
-
-    def test_Products24h_page_load_after_login(self):
-        response = self.client.get('/products/products24h')
-        self.assertEqual(response.status_code, 301)
 
 #    def test_Products24h_page_load_content(self):
 #        response = self.client.get('/products/products24h')
