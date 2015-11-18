@@ -51,6 +51,10 @@ class LoginPageTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Please enter a correct username and password')
 
+    def test_products24h_page_login_for_not_login_users(self):
+        response = self.client.get('/products/products24h/')
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/products/login/?next=/products/products24h/', response.items()[3][1])
 
 #    def test_login_page_login(self):
 #        response = self.client.post('/products/login/', {'username': 'testuser123456', 'password': 'testpass'})
