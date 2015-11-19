@@ -1,19 +1,10 @@
 from django.db import models
 
-
-class TestforPage(models.Model):
-    title = models.CharField(max_length=128)
-
-    def __unicode__(self):
-        return self.title
-
-
 class Category(models.Model):
     
     name = models.CharField(max_length=150)
     description = models.TextField()
     slug = models.SlugField()
-
 
     def __unicode__(self):
         return self.name

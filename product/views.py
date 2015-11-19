@@ -1,18 +1,14 @@
-from django.shortcuts import get_object_or_404, render_to_response
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404
+#from django.template import RequestContext
 from django.views.generic import ListView, DetailView, FormView, View
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import Product, Category
 from datetime import datetime, timedelta
 
-
-#class TestPage(ListView):
-#    model = TestforPage
-#    template_name = 'test-page.html'
 
 class ProductPage(DetailView):
     model = Product
@@ -22,9 +18,7 @@ class ProductPage(DetailView):
     def get_queryset(self):
         self.filter_category_slug = get_object_or_404(Category, slug=self.kwargs['test111'])
         self.filter_product_slug = get_object_or_404(Product, slug=self.kwargs['slug'])
-#        return Product.objects.filter(category_for_product = self.filter_category_slug, slug = self.filter_product_slug)
         return Product.objects.filter(category_for_product = self.filter_category_slug)
-
 
 
 class CategoryAllPage(ListView):
@@ -49,18 +43,12 @@ class ProductPage24h(ListView):
 class CategoryPage(ListView):
     model = Product
     template_name = 'category.html'
-#    slug_field = 'category_for_product' 
     context_object_name = 'categories'
 
     def get_queryset(self):
         self.filter = get_object_or_404(Category, slug = self.args[0])
         return Product.objects.filter(category_for_product = self.filter)
 
-
-#class CategoryPage(DetailView):
-#    model = Category
-#    template_name = 'category.html'
-#    context_object_name = 'categories'
 
 # OK registration block. May the Force be with me
 

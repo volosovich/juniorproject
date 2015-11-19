@@ -1,5 +1,4 @@
 from django.test import TestCase, Client
-from product.views import CategoryAllPage 
 from django.contrib.auth.models import User
 
 
@@ -34,12 +33,10 @@ class LoginPageTest(TestCase):
     def setUp(self):
         self.client = Client()
 
-
     def test_login_page_load(self):
         response = self.client.get('/products/login/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'templates/login.html')
-
 
     def test_login_page_login_without_correct_nickname(self):
         response = self.client.post('/products/login/', {'username': 'testuser1234567', 'password': 'testpass'})
@@ -56,14 +53,6 @@ class LoginPageTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn('/products/login/?next=/products/products24h/', response.items()[3][1])
 
-#    def test_login_page_login(self):
-#        response = self.client.post('/products/login/', {'username': 'testuser123456', 'password': 'testpass'})
-#        self.assertEqual(response.status_code, 200)
-
-#    def test_Products24h_page_load_after_login(self):
-#        response = self.client.get('/products/products24h/')
-#        self.assertEqual(response.status_code, 302)
-
     def test_login_page_login_and_load_products24h(self):
         User.objects.create_user('testuser1234568', 'lennon@thebeatles.com', 'testpass') #Create user
         answer = self.client.login(username='testuser1234568', password='testpass')      #Login, cookies and session is save. Next I'm cheking products24h page
@@ -72,10 +61,6 @@ class LoginPageTest(TestCase):
         self.assertContains(response, 'templates/product24h.html')
         self.assertEqual(response.status_code, 200)
 
-
-#    def test_Products24h_page_load_content(self):
-#        response = self.client.get('/products/products24h')
-#        self.assertEqual(response.status_code, 200)
 
 class HomePageTest(TestCase):
 
@@ -86,4 +71,3 @@ class HomePageTest(TestCase):
         response = self.client.get('/products/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Products app')
-
